@@ -1,36 +1,44 @@
 from numpy import array, zeros, diag, diagflat, dot
+import matplotlib.pyplot as plt
 
-def jacobiMethod(a, b, n, x = None):
-    if x is None:
-        x = zeros(len(a[0])) # if we dont have initial giess then we make it 0
-                                                                                                                                                               
-    D = diag(a) # take diagonal values from matrix
-    R = a - diagflat(D) # by using this function from numpy library we remoe diagonals from matrix
-
-    # print(D[0])
-    # print(b[0])
-    # print(R[0])
-    # print(dot(R, x))
-    l = len(x)
-    # print((b[0] - dot(R[0],x[0]))/D[0])
-    # iterate N times and every time remove result of x * matrix from augments                                                                                                                                                                        
-    # for i in range(n):
-    #     for j in range(l):
-    #         # x[j] = (b[j] - dot(R,x))[j]/D[j]
-    #         x = (b - dot(R,x))[j] / D[j]
-
+def seidel(a, b, x):
+    n = len(a)
+    c = 1
+    coun = []
+    x1 = []
+    x2 = []
+    x3 = []
+    for j in range(0, n):
+        d = b[j]
+        for i in range(0, n):
+            if(j != i):
+                d-=a[j][i] * x[i]
+            x[j] = d / a[j][j]
+            x1.append(x[0])
+            x2.append(x[1])
+            x3.append(x[2])
+            coun.append(c)
+            c += 1
+    plt.plot(coun, x1, label = "x")
+    plt.plot(coun, x2, label = "y")
+    plt.plot(coun, x3, label = "z")
+    plt.xlabel('iteration')
+    plt.ylabel('values')
+    plt.legend()
+    plt.show()
+    print(c)
     return x
 
-matrix = array([[5, -1, 2], 
-                [3, 8, -1],
-                [1, 1, 4]], float)
-augments = array([12, 1, 4])
+
+
+matrix = array([[10, 1, 1], 
+                [2, 10, 1],
+                [2, 2, 10]], float)
+augments = array([12, 13, 14])
 x = array([0, 0, 0], float)
-# print(matrix)
-# print(augments)
-# print("initial guess")
-# print(x)
-x = jacobiMethod(matrix, augments, 2, x)
+print(matrix)
+print(augments)
+x = seidel(matrix, augments, x)
 print("result")
 print(x)
 

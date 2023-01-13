@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 def f(x):
-    return x**3 - 5*x - 9
+    return x**2-4*x+4
 def secant(x0,x1,e,N):
     print('\n\n*** SECANT METHOD IMPLEMENTATION ***')
     step = 1
